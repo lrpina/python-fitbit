@@ -55,6 +55,10 @@ class FitbitOauth2Client(object):
             token=token,
             redirect_uri=redirect_uri,
         ))
+        print "refresh_cb"
+        print refresh_cb
+        print "token updater"
+        print self.session.token_updater
         self.timeout = kwargs.get("timeout", None)
 
     def _request(self, method, url, **kwargs):
@@ -151,13 +155,18 @@ class FitbitOauth2Client(object):
         which saves the token.
         """
         token = {}
+        print "before updating"
+        print self.session.token_updater
         if self.session.token_updater:
             token = self.session.refresh_token(
                 self.refresh_token_url,
                 auth=HTTPBasicAuth(self.client_id, self.client_secret)
             )
             self.session.token_updater(token)
-
+        else:
+            print "did not pass if"
+        print "printing token"
+        print token
         return token
 
 
