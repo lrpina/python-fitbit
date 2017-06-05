@@ -55,10 +55,13 @@ class FitbitOauth2Client(object):
             token=token,
             redirect_uri=redirect_uri,
         ))
+        print "in initialization of FitbitOauth2Client"
         print "refresh_cb"
         print refresh_cb
         print "token updater"
         print self.session.token_updater
+        print "token"
+        print token
         self.timeout = kwargs.get("timeout", None)
 
     def _request(self, method, url, **kwargs):

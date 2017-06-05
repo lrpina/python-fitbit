@@ -82,7 +82,7 @@ def f_token (token):{}
 #u_secret = 'b4ede7267445c5e37438d297b2971fc51e129781be5a9930a47bb598d1e4918a'
 
 #d = datetime.date(2016, 7, 23)
-authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=f_token(token=token))
+authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=lambda x: None)
 authd_client.client.refresh_token()
 # #body_stats = authd_client._COLLECTION_RESOURCE('body')
 # #print body_stats 
