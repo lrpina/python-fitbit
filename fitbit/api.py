@@ -98,6 +98,9 @@ class FitbitOauth2Client(object):
         https://dev.fitbit.com/docs/oauth2/#authorization-errors
         """
         print "in make_request with url"
+        print "printing **kwargs"
+        for name, value in kwargs.items():
+            print ('{0} -> {1}' .format(name, value))
         data = data or {}
         method = method or ('POST' if data else 'GET')
         response = self._request(
