@@ -56,18 +56,23 @@ class FitbitOauth2Client(object):
             redirect_uri=redirect_uri,
         ))
         print "in initialization of FitbitOauth2Client"
-        print "refresh_cb"
-        print refresh_cb
-        print "token updater"
-        print self.session.token_updater
-        print "token"
-        print token
+        #print "refresh_cb"
+        #print refresh_cb
+        #print "token updater"
+        #print self.session.token_updater
+        #print "token"
+        #print token
         self.timeout = kwargs.get("timeout", None)
 
     def _request(self, method, url, **kwargs):
         """
         A simple wrapper around requests.
         """
+        print "in _request"
+        print "printing **kwargs"
+        for name, value in kwargs.items():
+            print ('{0} -> {1}' .format(name, value))
+
         if self.timeout is not None and 'timeout' not in kwargs:
             kwargs['timeout'] = self.timeout
 
@@ -92,6 +97,7 @@ class FitbitOauth2Client(object):
 
         https://dev.fitbit.com/docs/oauth2/#authorization-errors
         """
+        print "in make_request with url"
         data = data or {}
         method = method or ('POST' if data else 'GET')
         response = self._request(
@@ -158,8 +164,13 @@ class FitbitOauth2Client(object):
         which saves the token.
         """
         token = {}
-        print "before updating"
-        print self.session.token_updater
+        print "in refresh_token function"
+        #print "before updating = " 
+        #print self.session.token_updater
+        #print "refresh_token_url = "+ self.refresh_token_url
+        #print "client id = " + self.client_id
+        #print "client secret = " + self.client_secret
+        #print "client expire_at = " + self.session.expires_at
         if self.session.token_updater:
             token = self.session.refresh_token(
                 self.refresh_token_url,
@@ -259,10 +270,19 @@ class Fitbit(object):
     def make_request(self, *args, **kwargs):
         # This should handle data level errors, improper requests, and bad
         # serialization
+        print "in make request no url"
         headers = kwargs.get('headers', {})
         headers.update({'Accept-Language': self.system})
         kwargs['headers'] = headers
 
+        print "printing **kwargs"
+        for name, value in kwargs.items():
+            print ('{0} -> {1}' .format(name, value))
+
+
+        print "printing *args"
+        for name, value in enumerate (args):
+            print ('{0} -> {1}' .format(name, value))
         method = kwargs.get('method', 'POST' if 'data' in kwargs else 'GET')
         response = self.client.make_request(*args, **kwargs)
 

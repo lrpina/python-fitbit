@@ -77,13 +77,20 @@ expires_in = 28800
 expires_at = 1496556709.63
 token = {}
 
-def f_token (token):{}
+def refresh_cb(self, token):
+	 """ Called when the OAuth token has been refreshed """
+	 self.access_token = token['access_token']
+	 self.refresh_token = token['refresh_token']
+	 self.expires_at = token['expires_at']
+	 self.save
+
+
 #u_key = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Ulg0UUoiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDgxMDc3MzE5LCJpYXQiOjE0ODEwNDg1MTl9.QAD7eoeiig41v_E8Y901qkDYne6vuRziUOJ8Qusfw2U'
 #u_secret = 'b4ede7267445c5e37438d297b2971fc51e129781be5a9930a47bb598d1e4918a'
 
 #d = datetime.date(2016, 7, 23)
-authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=lambda x: None)
-authd_client.client.refresh_token()
+authd = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=refresh_cb)
+#authd.client.refresh_token()
 # #body_stats = authd_client._COLLECTION_RESOURCE('body')
 # #print body_stats 
 
@@ -91,12 +98,12 @@ authd_client.client.refresh_token()
 #print sleep
 #d = '2016-07-23'
 #d = mkdate(d)
-#     sleep_data = c.get_sleep(date)
-#     dump_to_json_file("sleep", date, sleep_data)
 date = datetime.date(2016, 8, 11);
+
 #print date.year
-#sleep_data = authd_client.get_sleep(date)
+sleep_data = authd.get_sleep(date)
 #print sleep_data
+#     dump_to_json_file("sleep", date, sleep_data)
 #dump_to_json_file("sleep", date, sleep_data)
 
 
