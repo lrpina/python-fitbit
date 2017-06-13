@@ -97,7 +97,7 @@ class FitbitOauth2Client(object):
 
         https://dev.fitbit.com/docs/oauth2/#authorization-errors
         """
-        print "in make_request with url"
+        print "in make_request with url in oauth object"
         print "printing **kwargs"
         for name, value in kwargs.items():
             print ('{0} -> {1}' .format(name, value))
@@ -273,7 +273,7 @@ class Fitbit(object):
     def make_request(self, *args, **kwargs):
         # This should handle data level errors, improper requests, and bad
         # serialization
-        print "in make request no url"
+        print "in make request no url in fitbit object"
         headers = kwargs.get('headers', {})
         headers.update({'Accept-Language': self.system})
         kwargs['headers'] = headers
@@ -841,6 +841,7 @@ class Fitbit(object):
             month=date.month,
             day=date.day
         )
+        print ("printing url = " + url)
         return self.make_request(url)
 
     def log_sleep(self, start_time, duration):

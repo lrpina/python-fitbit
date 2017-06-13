@@ -71,25 +71,28 @@ parser = ConfigParser.SafeConfigParser()
 consumer_key = '229R96'
 user_id = '4SL9MY'
 consumer_secret = 'e520d1a8a82f5afae1ba40e7cb9a25b6'
-refresh_token = 'e67940e235f08f40bb2f2eeb18043614d633bb24fba39ac523d5af6700968d94'
-access_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0U0w5TVkiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk2NTU5MDA3LCJpYXQiOjE0OTY1MzAyMDd9.N3iSq4Ke2ttbAtW3vPXPIb664zi5HAFKQHAZuw0hu4k'
+refresh_token = '066b3a52c5a0e4c5943dbf655fd59ebcc734d690393c97a951ef3b8f78e3af42'
+access_token = ' eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0U0w5TVkiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk3NDExNDY1LCJpYXQiOjE0OTczODI2NjV9.-GpGzn3H_T_pfXnNW_VOVEG6uEwjTHKR0nTeKKRJOTQ'
 expires_in = 28800
-expires_at = 1496556709.63
+expires_at = 1497411541.33
 token = {}
 
-def refresh_cb(self, token):
+def r_cb(token):
 	 """ Called when the OAuth token has been refreshed """
-	 self.access_token = token['access_token']
-	 self.refresh_token = token['refresh_token']
-	 self.expires_at = token['expires_at']
-	 self.save
+	 access_token = token['access_token']
+	 refresh_token = token['refresh_token']
+	 expires_at = token['expires_at']
+	 print ("**********inside r_cb")
+	 print ("access_token inside r_cb = " + access_token)
+	 print ("refresh_token inside r_cb = " + refresh_token)
+	 print (expires_at)
 
 
 #u_key = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Ulg0UUoiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDgxMDc3MzE5LCJpYXQiOjE0ODEwNDg1MTl9.QAD7eoeiig41v_E8Y901qkDYne6vuRziUOJ8Qusfw2U'
 #u_secret = 'b4ede7267445c5e37438d297b2971fc51e129781be5a9930a47bb598d1e4918a'
 
 #d = datetime.date(2016, 7, 23)
-authd = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=refresh_cb)
+authd = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=r_cb)
 #authd.client.refresh_token()
 # #body_stats = authd_client._COLLECTION_RESOURCE('body')
 # #print body_stats 
@@ -104,7 +107,7 @@ date = datetime.date(2016, 8, 11);
 sleep_data = authd.get_sleep(date)
 #print sleep_data
 #     dump_to_json_file("sleep", date, sleep_data)
-#dump_to_json_file("sleep", date, sleep_data)
+dump_to_json_file("sleep", date, sleep_data)
 
 
 

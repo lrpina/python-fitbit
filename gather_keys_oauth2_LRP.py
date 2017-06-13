@@ -76,15 +76,15 @@ if __name__ == '__main__':
     server = OAuth2Server(*sys.argv[1:])
     server.browser_authorize()
 
-    # profile = server.fitbit.user_profile_get()
-    # print('You are authorized to access data for the user: {}'.format(
-    #     profile['user']['fullName']))
+    profile = server.fitbit.user_profile_get()
+    print('You are authorized to access data for the user: {}'.format(
+        profile['user']['fullName']))
 
-    # print('TOKEN\n=====\n')
-    # for key, value in server.fitbit.client.session.token.items():
-    #     print('{} = {}'.format(key, value))
+    print('TOKEN\n=====\n')
+    for key, value in server.fitbit.client.session.token.items():
+        print('{} = {}'.format(key, value))
 
-    print('FULL RESULTS = %s' % server.oauth.token)
+    #print('FULL RESULTS = %s' % server.oauth.token)
     #print('ACCESS_TOKEN = %s' % server.oauth.token['access_token'])
     #print('REFRESH_TOKEN = %s' % server.oauth.token['refresh_token'])
     #print('EXPIRES AT = %s' % server.oauth.token['expires_at'])
