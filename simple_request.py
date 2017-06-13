@@ -9,9 +9,10 @@ from fitbit.exceptions import HTTPTooManyRequests
 from fitbit.exceptions import HTTPUnauthorized
 import argparse
 import sys
+import decimal
 
 DUMP_DIR = '../fitbit-dumps'
-
+TOKEN_DIR = '../token-dumps'
 #double checks that it is a string, but needs to be entered with format 'YYYY-MM-DD' (or with double quotes)
 def mkdate(datestr):
 	try:
@@ -40,6 +41,31 @@ def dump_to_json_file(data_type, date, data):
 		f.write(json.dumps(data, indent=2))
 	time.sleep(1)
 
+def write_token_to_file(token, date):
+	# directory = "%s/%i/%s" % (TOKEN_DIR, date.year, date)
+	# print directory
+	# if not os.path.isdir(directory):
+	# 	os.makedirs(directory)
+	print "in write to token"
+	f= open('tokens.txt', 'w')
+	for item in token:
+		print item + " = "
+		#print token[item]
+		if isinstance(token[item], float):
+			value = '{:.2f}'.format(token[item])
+		else:
+			value = token[item]
+		print value
+		f.write(item + " = ")
+		f.write(value)
+		f.write("\n")
+	f.close()
+# def read_token_from_file(date):
+# 	directory = "%s/%i/%s" % (TOKEN_DIR, date.year, date)
+# 	print directory
+# 	if not os.path.isdir(directory):
+# 		print "directory not found"
+
 
 def previous_dumped(date):
 	return os.path.isdir("%s/%i/%s" % (DUMP_DIR, date.year, date))
@@ -67,29 +93,32 @@ def previous_dumped(date):
 #     return True
  
 parser = ConfigParser.SafeConfigParser()
-
+date = datetime.date(2016, 8, 11);
 consumer_key = '229R96'
 user_id = '4SL9MY'
 consumer_secret = 'e520d1a8a82f5afae1ba40e7cb9a25b6'
-refresh_token = '066b3a52c5a0e4c5943dbf655fd59ebcc734d690393c97a951ef3b8f78e3af42'
-access_token = ' eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0U0w5TVkiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk3NDExNDY1LCJpYXQiOjE0OTczODI2NjV9.-GpGzn3H_T_pfXnNW_VOVEG6uEwjTHKR0nTeKKRJOTQ'
+refresh_token = 'd841e154652acea608ad3447535b3acd2a0a4e791d74d5b702503670cef7525b'
+access_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0U0w5TVkiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk3NDIyNTcyLCJpYXQiOjE0OTczOTM3NzJ9.Z8piU_aA4COfh1gd3P1rpN_OwMupkqk7qtQan5YDmdM'
 expires_in = 28800
-expires_at = 1497411541.33
+expires_at = 149.42
 token = {}
 
 def r_cb(token):
 	 """ Called when the OAuth token has been refreshed """
+	 
 	 access_token = token['access_token']
 	 refresh_token = token['refresh_token']
 	 expires_at = token['expires_at']
 	 print ("**********inside r_cb")
-	 print ("access_token inside r_cb = " + access_token)
-	 print ("refresh_token inside r_cb = " + refresh_token)
-	 print (expires_at)
+	 write_token_to_file(token, date)	 
 
 
-#u_key = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Ulg0UUoiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDgxMDc3MzE5LCJpYXQiOjE0ODEwNDg1MTl9.QAD7eoeiig41v_E8Y901qkDYne6vuRziUOJ8Qusfw2U'
-#u_secret = 'b4ede7267445c5e37438d297b2971fc51e129781be5a9930a47bb598d1e4918a'
+# token['access_token'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0U0w5TVkiLCJhdWQiOiIyMjlSOTYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNDk3NDIwODkxLCJpYXQiOjE0OTczOTIwOTF9.FWQv0J4WnjDUFC9tbwrG1XAK504dBA8z_Bogthh_xu0'
+# token['refresh_token'] = 'ea25ca6005597abddb12c40ee61ff1fdb904d03ca3183f37c544ab90c3b9c845'
+# token['expires_at'] = 20.00
+# write_token_to_file(token, date)
+
+
 
 #d = datetime.date(2016, 7, 23)
 authd = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token, redirect_uri='http://localhost:8080', expires_at=expires_at, refresh_cb=r_cb)
@@ -101,7 +130,7 @@ authd = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, 
 #print sleep
 #d = '2016-07-23'
 #d = mkdate(d)
-date = datetime.date(2016, 8, 11);
+
 
 #print date.year
 sleep_data = authd.get_sleep(date)
